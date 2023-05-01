@@ -27,6 +27,8 @@ sudo fwupdmgr refresh --force
 sudo fwupdmgr get-updates
 sudo fwupdmgr update
 
+sudo dnf install -y lxpolkit
+sudo dnf install -y rofi
 sudo dnf install -y dropbox nautilus-dropbox
 sudo dnf install -y unzip p7zip p7zip-plugins unrar
 
