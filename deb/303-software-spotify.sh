@@ -9,37 +9,19 @@
 ###############################################################################
 
 
-func_install() {
-   	tput setaf 3
-    	echo "###############################################################################"
-    	echo "##################  Installing package "  $1
-    	echo "###############################################################################"
-    	echo
-    	tput sgr0
-    	sudo apt install -y $1 
-}
-
 ###############################################################################
 echo "Installation of Spotify"
 ###############################################################################
 
-list=(
-#curl
-)
+sudo apt update && sudo apt upgrade
 
-count=0
+sudo apt install curl libcanberra-gtk-module curl software-properties-common apt-transport-https gnupg2 debian-keyring -y
 
-for name in "${list[@]}" ; do
-	count=$[count+1]
-	tput setaf 3;echo "Installing package num.  "$count " " $name;tput sgr0;
-	func_install $name
-done
+curl -sS https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg | gpg --dearmor | sudo tee /usr/share/keyrings/spotify.gpg
 
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4773BD5E130D1D45
+echo "deb [signed-by=/usr/share/keyrings/spotify.gpg] http://repository.spotify.com stable non-free" | sudo tee /etc/apt/sources.list.d/spotify.list
 
-sudo echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-
-sudo apt update
+udo apt update
 
 sudo apt install -y spotify-client
 

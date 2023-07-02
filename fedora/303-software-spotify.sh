@@ -1,52 +1,21 @@
 #!/bin/bash
 #set -e
 
-
-###############################################################################
-#
-#   DECLARATION OF FUNCTIONS
-#
-###############################################################################
-
-
-func_install() {
-   	tput setaf 3
-    	echo "###############################################################################"
-    	echo "##################  Installing package "  $1
-    	echo "###############################################################################"
-    	echo
-    	tput sgr0
-    	sudo apt install -y $1 
-}
-
 ###############################################################################
 echo "Installation of Spotify"
 ###############################################################################
 
-list=(
-#curl
-)
+sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm -y
+sudo dnf install https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm -y
 
-count=0
+sudo dnf install lpf-spotify-client -y
 
-for name in "${list[@]}" ; do
-	count=$[count+1]
-	tput setaf 3;echo "Installing package num.  "$count " " $name;tput sgr0;
-	func_install $name
-done
-
-sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 4773BD5E130D1D45
-
-sudo echo deb http://repository.spotify.com stable non-free | sudo tee /etc/apt/sources.list.d/spotify.list
-
-sudo apt update
-
-sudo apt install -y spotify-client
+sudo usermod -a -G pkg-build jeff
 
 ###############################################################################
 
 tput setaf 11;
 echo "################################################################"
-echo "Software has been installed"
+echo "Reboot and then run lpf spotify-client"
 echo "################################################################"
 echo;tput sgr0

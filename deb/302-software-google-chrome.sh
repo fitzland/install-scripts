@@ -9,37 +9,21 @@
 ###############################################################################
 
 
-func_install() {
-   	tput setaf 3
-    	echo "###############################################################################"
-    	echo "##################  Installing package "  $1
-    	echo "###############################################################################"
-    	echo
-    	tput sgr0
-    	sudo apt install -y $1 
-}
-
 ###############################################################################
 echo "Installation of Google Chrome Stable"
 ###############################################################################
 
-list=(
-wget
-)
+sudo apt update && sudo apt upgrade
 
-count=0
+sudo apt install apt-transport-https curl -y
 
-for name in "${list[@]}" ; do
-	count=$[count+1]
-	tput setaf 3;echo "Installing package num.  "$count " " $name;tput sgr0;
-	func_install $name
-done
+curl -fSsL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor | sudo tee /usr/share/keyrings/google-chrome.gpg >> /dev/null
 
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+echo deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main | sudo tee /etc/apt/sources.list.d/google-chrome.list
 
-sudo apt install ./google-chrome-stable_current_amd64.deb
+sudo apt update
 
-sudo rm google-chrome-stable_current_amd64.deb
+sudo apt install google-chrome-stable
 
 ###############################################################################
 
